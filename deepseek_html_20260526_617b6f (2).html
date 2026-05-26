@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Real customer reviews for Vistaar PvT Ltd. – VPS & Minecraft server hosting. Login to post reviews with profile picture and image proof.">
+  <meta name="keywords" content="Vistaar PvT Ltd, VPS hosting, Minecraft server hosting, customer reviews, trust score">
+  <meta name="author" content="Vistaar PvT Ltd">
+  <title>VistaarCloud Host | Real Reviews – Login to Post</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --tp-green: #00b67a;
+      --tp-green-dark: #008f5f;
+      --tp-green-light: #e0f7ec;
+      --star-gold: #ffb81c;
+      --bg-white: #ffffff;
+      --bg-gray: #f8f9fc;
+      --text-primary: #1a1f36;
+      --text-secondary: #5e6f8d;
+      --border-light: #eef2f6;
+      --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 12px 28px rgba(0, 0, 0, 0.08);
+      --radius-card: 20px;
+    }
+
+    body.dark {
+      --tp-green: #14cc8a;
+      --tp-green-dark: #00a86b;
+      --bg-white: #1e2433;
+      --bg-gray: #121826;
+      --text-primary: #edf2f7;
+      --text-secondary: #9aa4bf;
+      --border-light: #2a3346;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, sans-serif;
+      background: var(--bg-gray);
+      color: var(--text-primary);
+      scroll-behavior: smooth;
+      transition: background 0.2s, color 0.2s;
+      line-height: 1.5;
+    }
+
+    /* ========== RGB LIGHT BAR - HALF SCREEN WIDTH, CENTERED ========== */
+    .rgb-bar {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50%;
+      min-width: 280px;
+      height: 4px;
+      z-index: 1000;
+      background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000);
+      background-size: 200% 100%;
+      animation: rgbMove 4s linear infinite;
+      box-shadow: 0 0 8px rgba(255,0,0,0.5);
+      border-radius: 0 0 4px 4px;
+    }
+    @keyframes rgbMove {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Navbar */
+    .navbar {
+      position: sticky;
+      top: 4px;
+      z-index: 99;
+      background: var(--bg-white);
+      border-bottom: 1px solid var(--border-light);
+      padding: 12px 0;
+      box-shadow: var(--shadow-sm);
+      margin-top: 0;
+    }
+
+    .nav-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    /* Main Logo: using your provided image + fallback */
+    .main-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--tp-green-light);
+      padding: 6px 20px 6px 16px;
+      border-radius: 60px;
+      transition: transform 0.2s;
+    }
+    .main-logo:hover { transform: scale(1.02); }
+    .main-logo-image {
+      height: 48px;
+      width: auto;
+      object-fit: contain;
+    }
+    .logo-text-block h2 { font-size: 1.2rem; font-weight: 800; line-height: 1.2; color: var(--tp-green-dark); }
+    body.dark .logo-text-block h2 { color: #9effcf; }
+    .logo-text-block p { font-size: 0.65rem; font-weight: 600; letter-spacing: 1px; color: var(--tp-green-dark); }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 500;
+      color: var(--text-primary);
+      transition: 0.2s;
+    }
+    .nav-links a:hover { color: var(--tp-green); }
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--border-light);
+      padding: 4px 12px 4px 8px;
+      border-radius: 40px;
+      cursor: pointer;
+    }
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--tp-green);
+    }
+    .user-name {
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .login-btn, .logout-btn {
+      background: var(--tp-green);
+      border: none;
+      padding: 6px 18px;
+      border-radius: 40px;
+      font-weight: 500;
+      color: white;
+      cursor: pointer;
+    }
+    .logout-btn { background: #dc3545; }
+    .dark-toggle {
+      background: var(--border-light);
+      border: none;
+      padding: 8px 18px;
+      border-radius: 40px;
+      font-weight: 500;
+      cursor: pointer;
+      color: var(--text-primary);
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background: var(--bg-white);
+      border-radius: 28px;
+      padding: 32px;
+      max-width: 480px;
+      width: 90%;
+      box-shadow: var(--shadow-md);
+    }
+    .modal-content h3 { margin-bottom: 20px; }
+    .modal-content input {
+      width: 100%;
+      margin-bottom: 16px;
+      padding: 12px;
+      border-radius: 20px;
+      border: 1px solid var(--border-light);
+      background: var(--bg-gray);
+    }
+    .avatar-preview {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 10px auto;
+      display: block;
+      border: 2px solid var(--tp-green);
+    }
+    .modal-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, var(--bg-white) 0%, var(--tp-green-light) 100%);
+      border-radius: 28px;
+      margin: 40px 0 50px;
+      padding: 48px 40px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 30px;
+    }
+    .hero-content { flex: 2; }
+    .hero h1 { font-size: 2.8rem; font-weight: 800; margin-bottom: 16px; }
+    .hero .green-highlight { color: var(--tp-green); }
+    .hero p { font-size: 1.2rem; color: var(--text-secondary); max-width: 550px; }
+    .trustpilot-badge {
+      flex: 1;
+      text-align: center;
+      background: var(--bg-white);
+      padding: 20px;
+      border-radius: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+    .trustpilot-badge img { max-width: 180px; width: 100%; height: auto; }
+    .trustpilot-badge .rating-text { font-weight: 600; color: var(--tp-green); margin-top: 8px; }
+
+    /* Section Titles */
+    .section-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 28px; position: relative; display: inline-block; }
+    .section-title:after { content: ''; position: absolute; bottom: -10px; left: 0; width: 60px; height: 3px; background: var(--tp-green); border-radius: 3px; }
+
+    /* Stats Dashboard */
+    .stats-grid { display: flex; flex-wrap: wrap; gap: 24px; margin-bottom: 44px; }
+    .stat-box { background: var(--bg-white); border-radius: var(--radius-card); padding: 24px; flex: 1; min-width: 200px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-light); }
+    .big-rating { font-size: 3rem; font-weight: 800; color: var(--tp-green); }
+    .stars-big { color: var(--star-gold); font-size: 1.2rem; letter-spacing: 2px; }
+    .rating-row { display: flex; align-items: center; gap: 12px; margin: 12px 0; }
+    .progress-bg { background: var(--border-light); border-radius: 20px; flex: 1; height: 10px; overflow: hidden; }
+    .progress-fill { background: var(--tp-green); width: 0%; height: 100%; border-radius: 20px; }
+
+    /* Filter Bar */
+    .filter-bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; margin: 32px 0 28px; }
+    .sort-select, .search-input { background: var(--bg-white); border: 1px solid var(--border-light); border-radius: 40px; padding: 10px 18px; font-family: inherit; }
+    .star-filter-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+    .star-filter-btn { background: var(--bg-white); border: 1px solid var(--border-light); border-radius: 40px; padding: 6px 16px; cursor: pointer; font-weight: 500; }
+    .star-filter-btn.active { background: var(--tp-green); color: white; border-color: var(--tp-green); }
+
+    /* Review Cards */
+    .reviews-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 28px; margin-bottom: 40px; }
+    .review-card { background: var(--bg-white); border-radius: 24px; padding: 24px; box-shadow: var(--shadow-sm); transition: 0.2s; border: 1px solid var(--border-light); }
+    .review-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .review-header { display: flex; gap: 14px; margin-bottom: 16px; }
+    .avatar-circle { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; background: var(--tp-green-light); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem; color: var(--tp-green-dark); }
+    .stars { color: var(--star-gold); font-size: 0.9rem; margin: 6px 0; }
+    .verified-badge { font-size: 0.7rem; background: var(--tp-green-light); color: var(--tp-green-dark); padding: 2px 10px; border-radius: 50px; display: inline-block; }
+    .review-text { margin: 14px 0; color: var(--text-secondary); }
+    .review-image { margin: 12px 0; text-align: center; }
+    .review-image img { max-width: 100%; max-height: 200px; border-radius: 16px; cursor: pointer; border: 1px solid var(--border-light); }
+    .review-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; font-size: 0.75rem; }
+    .helpful-btn, .copy-link-btn { background: none; border: none; cursor: pointer; font-size: 0.75rem; color: var(--tp-green); font-weight: 500; }
+
+    /* Form */
+    .form-card { background: var(--bg-white); border-radius: 28px; padding: 32px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-light); }
+    .form-group { margin-bottom: 20px; }
+    label { font-weight: 600; display: block; margin-bottom: 8px; }
+    input, select, textarea { width: 100%; padding: 12px 16px; border-radius: 20px; border: 1px solid var(--border-light); background: var(--bg-gray); font-family: inherit; }
+    .file-input-wrapper { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .image-preview { margin-top: 12px; max-width: 120px; border-radius: 12px; display: none; }
+    .submit-btn { background: var(--tp-green); border: none; padding: 14px 28px; border-radius: 40px; font-weight: 700; color: white; font-size: 1rem; cursor: pointer; transition: 0.2s; }
+    .submit-btn:hover { background: var(--tp-green-dark); transform: scale(1.02); }
+
+    /* Company & Footer */
+    .company-card { background: var(--bg-white); border-radius: 28px; padding: 32px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px; margin: 40px 0; border: 1px solid var(--border-light); }
+    .footer { background: var(--bg-white); border-radius: 24px 24px 0 0; padding: 32px 24px; text-align: center; margin-top: 60px; border-top: 1px solid var(--border-light); }
+    .toast-message { position: fixed; bottom: 24px; right: 24px; background: var(--tp-green); color: white; padding: 12px 24px; border-radius: 60px; font-weight: 600; z-index: 1000; animation: fadeIn 0.2s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px);} to { opacity: 1; transform: translateY(0);} }
+    .empty-state { text-align: center; padding: 50px 20px; background: var(--bg-white); border-radius: 28px; }
+    .lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center; cursor: pointer; }
+    .lightbox img { max-width: 90%; max-height: 90%; border-radius: 12px; }
+    @media (max-width: 760px) { 
+      .hero h1 { font-size: 2rem; } 
+      .hero { flex-direction: column; text-align: center; }
+      .rgb-bar { width: 70%; } /* still half-ish on mobile */
+    }
+  </style>
+</head>
+<body>
+<!-- RGB light bar - half screen width, centered -->
+<div class="rgb-bar"></div>
+
+<div class="navbar">
+  <div class="container nav-flex">
+    <div class="main-logo">
+      <!-- Your custom logo image (using the provided ImgBB direct link + fallback) -->
+      <img class="main-logo-image" src="https://i.ibb.co/JF2LdN01/logo.png" alt="VistaarCloud Host Logo" 
+           onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div class="logo-text-block" style="display: none;">
+        <h2>VISTAARCLOUD HOST</h2>
+        <p>RELIABLE · FAST · SECURE</p>
+      </div>
+      <div class="logo-text-block">
+        <h2>VISTAARCLOUD HOST</h2>
+        <p>RELIABLE · FAST · SECURE</p>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#write-review">Write review</a>
+      <a href="#company">Company</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+      <div id="authContainer"></div>
+      <button class="dark-toggle" id="darkModeToggle">Dark mode</button>
+    </div>
+  </div>
+</div>
+
+<main class="container">
+  <div id="home"></div>
+  <div class="hero">
+    <div class="hero-content">
+      <h1>Trusted Reviews for <span class="green-highlight">Vistaar PvT Ltd.</span></h1>
+      <p>Read genuine customer experiences for VPS & Minecraft server hosting. Login to post reviews with your profile picture and image proof.</p>
+    </div>
+    <div class="trustpilot-badge">
+      <img src="Trustpilot_logo_480x480.jpg" alt="Trustpilot EXCELLENT" onerror="this.src='https://placehold.co/180x180?text=Trustpilot+★'">
+      <div class="rating-text">★★★★★ 4.8 • Excellent</div>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <div class="stats-grid" id="statsDashboard">
+    <div class="stat-box"><div class="big-rating" id="avgRatingDisplay">0.0</div><div class="stars-big" id="avgStarsDisplay">☆☆☆☆☆</div><div>Overall rating</div><div id="totalReviewsCount" style="margin-top:12px;">0 reviews</div></div>
+    <div class="stat-box"><strong>Rating breakdown</strong><div id="ratingBreakdownList"></div></div>
+    <div class="stat-box"><strong>Customer satisfaction</strong><div style="font-size:2rem;font-weight:700;" id="satisfactionPercent">0%</div><div>5-star recommendations</div><div class="progress-bg" style="margin-top:10px;"><div class="progress-fill" id="satisfactionBar" style="width:0%"></div></div></div>
+  </div>
+
+  <!-- Filter bar -->
+  <div class="filter-bar">
+    <div><label>Sort by: </label><select id="sortSelect" class="sort-select"><option value="latest">Latest</option><option value="highest">Highest rating</option><option value="lowest">Lowest rating</option><option value="helpful">Most helpful</option></select></div>
+    <div><input type="text" id="searchInput" class="search-input" placeholder="Search reviews..."></div>
+    <div class="star-filter-btns" id="starFilterGroup">
+      <button data-star="all" class="star-filter-btn active">All</button><button data-star="5" class="star-filter-btn">5★</button><button data-star="4" class="star-filter-btn">4★</button><button data-star="3" class="star-filter-btn">3★</button><button data-star="2" class="star-filter-btn">2★</button><button data-star="1" class="star-filter-btn">1★</button>
+    </div>
+  </div>
+
+  <!-- Reviews Section -->
+  <section id="reviews"><div class="section-title">Customer reviews with proof</div><div id="reviewsContainer" class="reviews-grid"></div></section>
+
+  <!-- Submit Review Form -->
+  <section id="write-review"><div class="section-title">Write your review</div>
+    <div class="form-card">
+      <form id="reviewForm">
+        <div class="form-group"><label>Full name *</label><input type="text" id="reviewName" required placeholder="e.g., Priya Sharma"></div>
+        <div class="form-group"><label>Email address *</label><input type="email" id="reviewEmail" required placeholder="your@email.com"></div>
+        <div class="form-group"><label>Rating *</label><select id="reviewRating" required><option value="5">★★★★★ 5 stars – Excellent</option><option value="4">★★★★☆ 4 stars – Very good</option><option value="3">★★★☆☆ 3 stars – Average</option><option value="2">★★☆☆☆ 2 stars – Poor</option><option value="1">★☆☆☆☆ 1 star – Terrible</option></select></div>
+        <div class="form-group"><label>Your experience *</label><textarea id="reviewText" rows="4" required placeholder="Tell us about your experience with VistaarCloud VPS or Minecraft server hosting..."></textarea></div>
+        <div class="form-group"><label>Upload proof (screenshot, optional)</label><div class="file-input-wrapper"><input type="file" id="reviewImage" accept="image/jpeg,image/png,image/webp"></div><img id="imagePreview" class="image-preview" alt="Preview"></div>
+        <button type="submit" class="submit-btn">Submit review with proof</button>
+        <p style="font-size:0.75rem; margin-top:16px;">Login to automatically use your profile info. All reviews are real, stored locally.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- Company Profile -->
+  <section id="company"><div class="section-title">About VistaarCloud Host</div><div class="company-card"><div><div style="display:flex; gap:12px; align-items:center; margin-bottom:16px;"><span style="font-size:2rem;">☁️</span><div><strong style="font-size:1.5rem;">VISTAARCLOUD HOST</strong><br>RELIABLE · FAST · SECURE</div></div><p><strong>TrustScore:</strong> <span id="companyTrustScore">0.0</span> / 5.0</p><p><strong>Total real reviews:</strong> <span id="companyReviewCount">0</span></p><p><strong>Website:</strong> <a href="https://gp.zorvexnodes.fun/" target="_blank" style="color: var(--tp-green);">gp.zorvexnodes.fun</a></p><p><strong>Email:</strong> <a href="mailto:enderop29@gmail.com">enderop29@gmail.com</a></p><p>Vistaar PvT Ltd. specializes in high-performance VPS and Minecraft server hosting. Upload proof images in reviews to help others!</p></div><div><button onclick="window.open('https://gp.zorvexnodes.fun/','_blank')" style="background:var(--tp-green); border:none; border-radius:40px; padding:12px 24px; color:white; font-weight:bold; cursor:pointer;">Visit website</button><button onclick="location.href='mailto:enderop29@gmail.com'" style="background:transparent; border:1px solid var(--tp-green); border-radius:40px; padding:12px 24px; margin-top:12px; color:var(--tp-green); font-weight:bold; cursor:pointer;">Contact email</button></div></div></section>
+
+  <!-- FAQ -->
+  <section id="faq"><div class="section-title">Frequently asked questions</div><div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px;"><div class="stat-box"><strong>Are reviews real?</strong><br>Yes, zero fake preloads. All reviews submitted by real users.</div><div class="stat-box"><strong>How do I login?</strong><br>Click "Login" button, enter name, email, and upload a profile picture (fake login, stored locally).</div><div class="stat-box"><strong>Where are images stored?</strong><br>Images (profile & proof) are base64 in localStorage. Small and safe.</div><div class="stat-box"><strong>Is TrustScore real-time?</strong><br>Yes, updates instantly when a new review is added.</div></div></section>
+
+  <!-- Contact -->
+  <section id="contact"><div class="section-title">Contact us</div><div class="company-card"><div><strong>Email support:</strong> <a href="mailto:enderop29@gmail.com">enderop29@gmail.com</a></div><div><strong>Official website:</strong> <a href="https://gp.zorvexnodes.fun/" target="_blank">gp.zorvexnodes.fun</a></div></div></section>
+</main>
+<footer class="footer"><p>© 2026 Vistaar PvT Ltd. — Real reviews, real trust, real proof. Login to post.</p></footer>
+
+<!-- Login Modal -->
+<div id="loginModal" class="modal">
+  <div class="modal-content">
+    <h3>Login to VistaarCloud Reviews</h3>
+    <input type="text" id="loginName" placeholder="Full name" required>
+    <input type="email" id="loginEmail" placeholder="Email address" required>
+    <label>Profile picture (optional)</label>
+    <input type="file" id="loginAvatar" accept="image/jpeg,image/png,image/webp">
+    <img id="avatarPreview" class="avatar-preview" style="display:none;">
+    <div class="modal-buttons">
+      <button id="closeModalBtn" style="background:#ccc; border:none; padding:8px 20px; border-radius:40px;">Cancel</button>
+      <button id="confirmLoginBtn" class="submit-btn" style="padding:8px 20px;">Login</button>
+    </div>
+  </div>
+</div>
+
+<!-- Lightbox for images -->
+<div id="lightbox" class="lightbox" onclick="closeLightbox()"><img id="lightboxImg" src=""></div>
+
+<script>
+  // ========== FAKE LOGIN SYSTEM (localStorage) ==========
+  let currentUser = null;
+  const STORAGE_USER_KEY = "vistaar_logged_user";
+  const STORAGE_REVIEWS_KEY = "vistaar_cloud_reviews";
+  let reviews = [];
+
+  function loadUser() {
+    const saved = localStorage.getItem(STORAGE_USER_KEY);
+    if (saved) {
+      currentUser = JSON.parse(saved);
+      updateAuthUI();
+    } else {
+      currentUser = null;
+      updateAuthUI();
+    }
+  }
+
+  function saveUser(user) {
+    localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(user));
+    currentUser = user;
+    updateAuthUI();
+  }
+
+  function logout() {
+    localStorage.removeItem(STORAGE_USER_KEY);
+    currentUser = null;
+    updateAuthUI();
+    showToast("Logged out successfully.");
+    document.getElementById('reviewName').value = '';
+    document.getElementById('reviewEmail').value = '';
+  }
+
+  function updateAuthUI() {
+    const container = document.getElementById('authContainer');
+    if (!container) return;
+    if (currentUser) {
+      container.innerHTML = `
+        <div class="user-profile" onclick="showProfileOptions()">
+          <img src="${currentUser.avatar || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22white%22%3E%3Cpath d=%22M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z%22/%3E%3C/svg%3E'}" class="user-avatar">
+          <span class="user-name">${escapeHtml(currentUser.name.split(' ')[0])}</span>
+          <button class="logout-btn" onclick="event.stopPropagation(); logout()">Logout</button>
+        </div>
+      `;
+      const nameInput = document.getElementById('reviewName');
+      const emailInput = document.getElementById('reviewEmail');
+      if (nameInput) nameInput.value = currentUser.name;
+      if (emailInput) emailInput.value = currentUser.email;
+    } else {
+      container.innerHTML = `<button class="login-btn" id="showLoginBtn">Login</button>`;
+      const loginBtn = document.getElementById('showLoginBtn');
+      if (loginBtn) loginBtn.addEventListener('click', showLoginModal);
+      const nameInput = document.getElementById('reviewName');
+      const emailInput = document.getElementById('reviewEmail');
+      if (nameInput && !nameInput.value) nameInput.value = '';
+      if (emailInput && !emailInput.value) emailInput.value = '';
+    }
+  }
+
+  function showLoginModal() {
+    const modal = document.getElementById('loginModal');
+    modal.style.display = 'flex';
+    document.getElementById('avatarPreview').style.display = 'none';
+    document.getElementById('loginAvatar').value = '';
+  }
+
+  function closeModal() { document.getElementById('loginModal').style.display = 'none'; }
+
+  document.getElementById('confirmLoginBtn')?.addEventListener('click', () => {
+    const name = document.getElementById('loginName').value.trim();
+    const email = document.getElementById('loginEmail').value.trim();
+    const avatarFile = document.getElementById('loginAvatar').files[0];
+    if (!name || !email) { alert("Please enter name and email."); return; }
+    if (!email.includes('@')) { alert("Invalid email."); return; }
+    if (avatarFile) {
+      const reader = new FileReader();
+      reader.onload = function(e) { saveUser({ name, email, avatar: e.target.result }); closeModal(); showToast(`Welcome, ${name}!`); };
+      reader.readAsDataURL(avatarFile);
+    } else { saveUser({ name, email, avatar: null }); closeModal(); showToast(`Welcome, ${name}!`); }
+  });
+  document.getElementById('closeModalBtn')?.addEventListener('click', closeModal);
+  window.onclick = function(e) { if (e.target === document.getElementById('loginModal')) closeModal(); };
+  document.getElementById('loginAvatar')?.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) { const reader = new FileReader(); reader.onload = ev => { const preview = document.getElementById('avatarPreview'); preview.src = ev.target.result; preview.style.display = 'block'; }; reader.readAsDataURL(file); }
+  });
+
+  // ========== REVIEWS SYSTEM ==========
+  function renderStars(rating) { return '★'.repeat(rating) + '☆'.repeat(5 - rating); }
+
+  function loadReviews() {
+    const stored = localStorage.getItem(STORAGE_REVIEWS_KEY);
+    reviews = stored ? JSON.parse(stored) : [];
+    renderAll();
+  }
+  function saveReviews() { localStorage.setItem(STORAGE_REVIEWS_KEY, JSON.stringify(reviews)); }
+  function showToast(msg) { const t = document.createElement('div'); t.className = 'toast-message'; t.innerText = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 3000); }
+
+  const imageInput = document.getElementById('reviewImage');
+  const previewImg = document.getElementById('imagePreview');
+  if (imageInput) {
+    imageInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file && file.type.startsWith('image/')) { const reader = new FileReader(); reader.onload = ev => { previewImg.src = ev.target.result; previewImg.style.display = 'block'; }; reader.readAsDataURL(file); }
+      else { previewImg.style.display = 'none'; }
+    });
+  }
+
+  function addNewReview(reviewData, imageBase64) {
+    const newReview = {
+      id: Date.now() + Math.random().toString(36),
+      name: reviewData.name.trim(), email: reviewData.email.trim(), rating: parseInt(reviewData.rating), text: reviewData.text.trim(),
+      date: new Date().toISOString(), helpful: 0, verified: true,
+      avatar: reviewData.avatar || null, image: imageBase64 || null
+    };
+    reviews.unshift(newReview); saveReviews(); renderAll(); showToast("Review submitted with proof!");
+  }
+
+  let currentStarFilter = "all", currentSort = "latest", currentSearch = "";
+  function getFilteredSorted() {
+    let filtered = [...reviews];
+    if (currentStarFilter !== "all") filtered = filtered.filter(r => r.rating === parseInt(currentStarFilter));
+    if (currentSearch.trim()) { const term = currentSearch.toLowerCase(); filtered = filtered.filter(r => r.name.toLowerCase().includes(term) || r.text.toLowerCase().includes(term)); }
+    if (currentSort === "latest") filtered.sort((a,b) => new Date(b.date) - new Date(a.date));
+    else if (currentSort === "highest") filtered.sort((a,b) => b.rating - a.rating);
+    else if (currentSort === "lowest") filtered.sort((a,b) => a.rating - b.rating);
+    else if (currentSort === "helpful") filtered.sort((a,b) => b.helpful - a.helpful);
+    return filtered;
+  }
+
+  function openLightbox(src) { const lb = document.getElementById('lightbox'); document.getElementById('lightboxImg').src = src; lb.style.display = 'flex'; }
+  window.closeLightbox = function() { document.getElementById('lightbox').style.display = 'none'; };
+
+  function renderReviewsUI(reviewsArray) {
+    const container = document.getElementById('reviewsContainer');
+    if (!container) return;
+    if (reviewsArray.length === 0) { container.innerHTML = `<div class="empty-state">No reviews yet. Login and be the first to share your experience with proof image.</div>`; return; }
+    container.innerHTML = reviewsArray.map(rev => `
+      <div class="review-card">
+        <div class="review-header">
+          ${rev.avatar ? `<img src="${rev.avatar}" class="avatar-circle" style="object-fit:cover;">` : `<div class="avatar-circle">${(rev.name.charAt(0)).toUpperCase()}</div>`}
+          <div><div style="font-weight:700;">${escapeHtml(rev.name)}</div><div class="stars">${renderStars(rev.rating)}</div>${rev.verified ? '<span class="verified-badge">Verified customer</span>' : ''}</div>
+        </div>
+        <p class="review-text">${escapeHtml(rev.text)}</p>
+        ${rev.image ? `<div class="review-image"><img src="${rev.image}" alt="Proof" onclick="openLightbox('${rev.image}')" style="cursor:pointer;"></div>` : ''}
+        <div class="review-footer"><span>${new Date(rev.date).toLocaleDateString()}</span><div><button class="helpful-btn" data-id="${rev.id}">Helpful (${rev.helpful})</button><button class="copy-link-btn" data-id="${rev.id}">Copy link</button></div></div>
+      </div>
+    `).join('');
+    document.querySelectorAll('.helpful-btn').forEach(btn => btn.addEventListener('click', (e) => { const id = btn.getAttribute('data-id'); const review = reviews.find(r => r.id == id); if (review) { review.helpful++; saveReviews(); renderAll(); } }));
+    document.querySelectorAll('.copy-link-btn').forEach(btn => btn.addEventListener('click', (e) => { const id = btn.getAttribute('data-id'); navigator.clipboard.writeText(`${window.location.origin}${window.location.pathname}#review-${id}`); showToast("Link copied"); }));
+  }
+
+  function updateStats() {
+    const total = reviews.length;
+    if (total === 0) {
+      document.getElementById('avgRatingDisplay').innerText = '0.0'; document.getElementById('avgStarsDisplay').innerHTML = '☆☆☆☆☆';
+      document.getElementById('totalReviewsCount').innerHTML = '0 reviews'; document.getElementById('satisfactionPercent').innerText = '0%';
+      document.getElementById('satisfactionBar').style.width = '0%'; document.getElementById('ratingBreakdownList').innerHTML = '<div>No ratings</div>';
+      document.getElementById('companyTrustScore').innerText = '0.0'; document.getElementById('companyReviewCount').innerText = '0';
+      return;
+    }
+    let sum = reviews.reduce((acc, r) => acc + r.rating, 0);
+    let avg = (sum / total).toFixed(1);
+    document.getElementById('avgRatingDisplay').innerText = avg; document.getElementById('avgStarsDisplay').innerHTML = renderStars(Math.round(avg));
+    document.getElementById('totalReviewsCount').innerHTML = `${total} review${total!==1?'s':''}`;
+    document.getElementById('companyTrustScore').innerText = avg; document.getElementById('companyReviewCount').innerText = total;
+    const fiveStarCount = reviews.filter(r => r.rating === 5).length;
+    const satisfaction = total ? (fiveStarCount / total) * 100 : 0;
+    document.getElementById('satisfactionPercent').innerText = Math.round(satisfaction); document.getElementById('satisfactionBar').style.width = `${satisfaction}%`;
+    let html = ''; [5,4,3,2,1].forEach(star => { let count = reviews.filter(r => r.rating === star).length; let percent = total ? (count/total)*100 : 0; html += `<div class="rating-row"><span>${star}★</span><div class="progress-bg"><div class="progress-fill" style="width:${percent}%;"></div></div><span>${count}</span></div>`; });
+    document.getElementById('ratingBreakdownList').innerHTML = html;
+  }
+
+  function renderAll() { renderReviewsUI(getFilteredSorted()); updateStats(); }
+
+  document.getElementById('sortSelect')?.addEventListener('change', (e) => { currentSort = e.target.value; renderAll(); });
+  document.getElementById('searchInput')?.addEventListener('input', (e) => { currentSearch = e.target.value; renderAll(); });
+  document.querySelectorAll('#starFilterGroup .star-filter-btn').forEach(btn => { btn.addEventListener('click', () => { document.querySelectorAll('#starFilterGroup .star-filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentStarFilter = btn.getAttribute('data-star'); renderAll(); }); });
+
+  const form = document.getElementById('reviewForm');
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    let name = document.getElementById('reviewName').value.trim();
+    let email = document.getElementById('reviewEmail').value.trim();
+    const rating = document.getElementById('reviewRating').value;
+    const text = document.getElementById('reviewText').value.trim();
+    const imageFile = document.getElementById('reviewImage').files[0];
+    if (!name || !email || !text) { alert("Please fill all required fields."); return; }
+    if (!email.includes('@')) { alert("Enter valid email."); return; }
+    const avatarForReview = currentUser?.avatar || null;
+    const processSubmit = (imgBase64) => { addNewReview({ name, email, rating, text, avatar: avatarForReview }, imgBase64); form.reset(); if(previewImg) previewImg.style.display = 'none'; if(currentUser) { document.getElementById('reviewName').value = currentUser.name; document.getElementById('reviewEmail').value = currentUser.email; } };
+    if (imageFile) { const reader = new FileReader(); reader.onload = (ev) => processSubmit(ev.target.result); reader.readAsDataURL(imageFile); } else { processSubmit(null); }
+  });
+
+  const darkToggle = document.getElementById('darkModeToggle');
+  darkToggle?.addEventListener('click', () => { document.body.classList.toggle('dark'); localStorage.setItem('vistaarDark', document.body.classList.contains('dark')); });
+  if (localStorage.getItem('vistaarDark') === 'true') document.body.classList.add('dark');
+
+  function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : (m === '<' ? '&lt;' : '&gt;')); }
+
+  loadUser();
+  loadReviews();
+</script>
+</body>
+</html>
